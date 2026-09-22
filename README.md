@@ -1,442 +1,717 @@
 # ASTRA-TAD
-## Real-Time Telemetry Anomaly Detection System
+### AI-Powered Real-Time Telemetry Anomaly Detection System
 
-ASTRA-TAD is a real-time telemetry anomaly detection system designed
-to identify abnormal behavior in streaming sensor data.
+ASTRA-TAD is a real-time machine learning system designed to detect abnormal patterns in telemetry data using deep learning, anomaly detection algorithms, and real-time data streaming.
 
-The system combines Kafka-based telemetry streaming, a PyTorch
-autoencoder, anomaly scoring, automated alert generation, and a
-FastAPI monitoring dashboard.
+The system generates telemetry data, introduces different types of anomalies, streams the data through Apache Kafka, processes it using machine learning models, detects anomalous behavior, estimates contributing telemetry features, generates alerts, and presents the results through a FastAPI-powered live dashboard.
 
 ---
 
-# 1. Project Objective
+## 🎯 Project Objective
 
-The main objective of ASTRA-TAD is to:
+The main objective of ASTRA-TAD is to build an end-to-end real-time anomaly detection pipeline capable of:
 
-- Collect telemetry data in real time
-- Process streaming sensor measurements
-- Detect abnormal telemetry using machine learning
-- Calculate anomaly scores
-- Generate severity-based security/telemetry alerts
-- Identify possible contributing sensor features
-- Display alerts through a web dashboard
-- Evaluate model performance using ground-truth data
-
----
-
-# 2. System Architecture
-
-Telemetry Generator
-        |
-        v
-Apache Kafka
-        |
-        v
-Telemetry Topic
-        |
-        v
-ML Consumer
-        |
-        v
-Data Normalization
-        |
-        v
-PyTorch Autoencoder
-        |
-        v
-Reconstruction Error
-        |
-        v
-Anomaly Threshold
-        |
-        +----------------+
-        |                |
-     Normal           Anomaly
-                         |
-                         v
-                   Alert Logger
-                         |
-                         v
-                   alerts.jsonl
-                         |
-                         v
-                    FastAPI
-                         |
-                         v
-                    Dashboard
+- Generating healthy telemetry data
+- Simulating realistic telemetry anomalies
+- Processing and scaling telemetry features
+- Detecting abnormal behavior using machine learning
+- Comparing multiple anomaly detection approaches
+- Processing telemetry in real time using Apache Kafka
+- Generating automated anomaly alerts
+- Estimating the telemetry features contributing to an anomaly
+- Exposing results through REST APIs
+- Visualizing telemetry and anomaly information through a web dashboard
 
 ---
 
-# 3. Technologies Used
+# 🧠 Core Technologies
 
-## Programming
-
-- Python
-
-## Machine Learning
-
-- PyTorch
-- Autoencoder
-- Reconstruction-error based anomaly detection
-
-## Streaming
-
-- Apache Kafka
-- Kafka Producer
-- Kafka Consumer
-
-## Backend
-
-- FastAPI
-- Uvicorn
-
-## Data Processing
-
-- Pandas
-- NumPy
-
-## Visualization
-
-- Matplotlib
-
-## Frontend
-
-- HTML
-- CSS
-- JavaScript
+| Technology | Purpose |
+|---|---|
+| Python | Core programming language |
+| NumPy | Numerical computation |
+| Pandas | Data processing and analysis |
+| PyTorch | Deep learning and Autoencoder models |
+| Scikit-learn | Machine learning models and preprocessing |
+| Apache Kafka | Real-time telemetry streaming |
+| FastAPI | REST API backend |
+| HTML / CSS / JavaScript | Dashboard interface |
+| Matplotlib | Data visualization |
+| Jupyter Notebook | Exploratory data analysis |
+| Git / GitHub | Version control and project hosting |
 
 ---
 
-# 4. Telemetry Features
+# 🏗️ System Architecture
+
+```mermaid
+flowchart TD
+
+    A[Telemetry Generator] --> B[Healthy Telemetry Data]
+
+    B --> C[Anomaly Generator]
+
+    C --> D[Telemetry Dataset]
+
+    D --> E[Data Preprocessing]
+
+    E --> F[Feature Scaling]
+
+    F --> G[Machine Learning Models]
+
+    G --> G1[Isolation Forest]
+    G --> G2[Autoencoder]
+    G --> G3[LSTM Autoencoder]
+    G --> G4[Hybrid Detection]
+    G --> G5[Score-Based Fusion]
+
+    C --> H[Apache Kafka]
+
+    H --> I[Real-Time ML Consumer]
+
+    I --> J[Autoencoder Inference]
+
+    J --> K[Anomaly Score]
+
+    K --> L{Score > Threshold?}
+
+    L -->|No| M[Normal Telemetry]
+    L -->|Yes| N[Anomaly Detected]
+
+    N --> O[Severity Classification]
+
+    N --> P[Root-Cause Feature Analysis]
+
+    O --> Q[Alert Logger]
+
+    P --> Q
+
+    Q --> R[FastAPI Backend]
+
+    R --> S[Live Dashboard]
+```
+
+---
+
+# 📊 Telemetry Features
 
 ASTRA-TAD processes seven telemetry features:
 
-1. Temperature
-2. Voltage
-3. Current
-4. Pressure
-5. Vibration
-6. RPM
-7. Battery
+| Feature | Description |
+|---|---|
+| Temperature | System/device temperature |
+| Voltage | Electrical voltage |
+| Current | Electrical current |
+| Pressure | System pressure |
+| Vibration | Vibration measurement |
+| RPM | Rotational speed |
+| Battery | Battery level |
+
+These features are scaled before being passed into the machine learning models.
 
 ---
 
-# 5. Machine Learning Model
+# 🚨 Simulated Anomaly Types
 
-ASTRA-TAD uses an Autoencoder.
+The project contains synthetic anomaly scenarios for evaluating the detection system.
 
-Architecture:
+### 1. Temperature Spike
 
-7
-|
-v
-16
-|
-v
-8
-|
-v
-3
-|
-v
-8
-|
-v
-16
-|
-v
-7
+Sudden increase in temperature beyond normal operating behavior.
 
-The three-neuron bottleneck provides a compressed representation
-of the telemetry data.
+### 2. Voltage Drop
 
-The model reconstructs the input telemetry.
+Abnormal decrease in voltage.
+
+### 3. Sensor Drift
+
+Gradual deviation of sensor values from their normal behavior.
+
+### 4. Stuck Sensor
+
+A telemetry sensor remains approximately constant instead of changing naturally.
+
+### 5. High Vibration
+
+Abnormally high vibration levels.
+
+### 6. Correlated Failure
+
+Multiple telemetry parameters change together to simulate a related system failure.
+
+### 7. Battery Degradation
+
+Progressive decrease in battery performance.
+
+---
+
+# 🤖 Machine Learning Pipeline
+
+ASTRA-TAD contains multiple anomaly detection approaches.
+
+## 1. Isolation Forest
+
+Isolation Forest is used as a classical machine learning baseline for detecting unusual telemetry observations.
+
+It isolates observations using randomized decision trees. Unusual observations generally require fewer splits to isolate.
+
+---
+
+## 2. Autoencoder
+
+The primary real-time deep learning detector is an Autoencoder.
+
+The model learns to reconstruct normal telemetry patterns.
+
+### Architecture
+
+```text
+Input
+  ↓
+7 Features
+  ↓
+16 Neurons
+  ↓
+8 Neurons
+  ↓
+3-D Latent Representation
+  ↓
+8 Neurons
+  ↓
+16 Neurons
+  ↓
+7 Features
+  ↓
+Reconstructed Telemetry
+```
 
 The reconstruction error is used as the anomaly score.
 
+A large reconstruction error indicates that the telemetry pattern differs significantly from the learned normal behavior.
+
 ---
 
-# 6. Anomaly Detection
+## 3. LSTM Autoencoder
 
-The system calculates Mean Squared Error (MSE):
+An LSTM-based Autoencoder is included to investigate temporal dependencies in telemetry sequences.
 
-MSE = mean((original - reconstructed)^2)
+This allows the project to analyze patterns where the order and history of telemetry observations are important.
+
+---
+
+## 4. Hybrid Detection
+
+The project also contains hybrid anomaly detection logic that combines information from multiple detection approaches.
+
+---
+
+## 5. Score-Based Fusion
+
+Score-based fusion combines anomaly scores to create a unified detection approach.
+
+---
+
+# 📈 Anomaly Detection
+
+The real-time Autoencoder uses the following anomaly threshold:
+
+```text
+2.148575
+```
+
+For each incoming telemetry observation:
+
+```text
+Telemetry
+    ↓
+Feature Extraction
+    ↓
+Scaling
+    ↓
+Autoencoder
+    ↓
+Reconstruction
+    ↓
+Reconstruction Error
+    ↓
+Anomaly Score
+    ↓
+Compare with Threshold
+    ↓
+Normal / Anomaly
+```
 
 If:
 
-anomaly_score > threshold
+```text
+Anomaly Score > 2.148575
+```
 
-the telemetry record is classified as anomalous.
-
-Current threshold:
-
-2.148575
+the observation is classified as anomalous.
 
 ---
 
-# 7. Anomaly Types
+# 🔍 Root-Cause Feature Analysis
 
-The synthetic dataset contains several anomaly categories:
+When an anomaly is detected, ASTRA-TAD compares the original telemetry values with the reconstructed values.
 
-- Temperature spike
-- Voltage drop
-- Sensor drift
-- Stuck sensor
-- High vibration
-- Correlated failure
-- Battery degradation
+The reconstruction errors are used to identify the telemetry features contributing most strongly to the detected anomaly.
+
+The system reports the highest contributing features as potential root-cause indicators.
+
+> Note: This is feature-contribution analysis based on reconstruction error. It should not be interpreted as proof of physical causation.
 
 ---
 
-# 8. Real-Time Processing
+# ⚡ Real-Time Streaming Pipeline
 
-The telemetry generator publishes sensor data to the Kafka topic:
+ASTRA-TAD uses Apache Kafka to create a real-time telemetry pipeline.
 
-telemetry
+```text
+Telemetry Generator
+        ↓
+   Kafka Producer
+        ↓
+ Apache Kafka
+        ↓
+ telemetry topic
+        ↓
+ ML Consumer
+        ↓
+ Autoencoder
+        ↓
+ Anomaly Detection
+        ↓
+ Alert Logger
+        ↓
+ FastAPI
+        ↓
+ Dashboard
+```
 
-The ML consumer reads the telemetry stream and performs:
-
-1. Feature extraction
-2. Normalization
-3. Autoencoder inference
-4. Reconstruction-error calculation
-5. Threshold comparison
-6. Root-cause feature estimation
-7. Alert generation
-
----
-
-# 9. Alert Severity
-
-Alerts are classified using anomaly score thresholds.
-
-CRITICAL:
-score >= threshold × 10
-
-HIGH:
-score >= threshold × 5
-
-MEDIUM:
-score >= threshold × 2
-
-LOW:
-score >= threshold
+Kafka decouples telemetry generation from machine learning inference and allows the detection component to process incoming observations continuously.
 
 ---
 
-# 10. Alert Information
+# 🚨 Alert System
 
-Each generated alert contains information such as:
+When an anomaly is detected, ASTRA-TAD generates an alert containing information such as:
 
 - Alert ID
 - Timestamp
 - Alert type
 - Severity
-- Sensor information
 - Anomaly score
-- Threshold
+- Detection threshold
 - Telemetry values
-- Possible contributing features
+- Potential contributing features
+
+Example structure:
+
+```json
+{
+  "alert_id": "ALT-XXXXXX",
+  "alert_type": "ML_ANOMALY",
+  "severity": "CRITICAL",
+  "score": 160.96,
+  "threshold": 2.148575
+}
+```
+
+Alerts are stored in JSON Lines format for later inspection.
 
 ---
 
-# 11. API Endpoints
+# 🌐 FastAPI Backend
 
-FastAPI runs on:
+The project provides a FastAPI backend for accessing anomaly information.
 
+### Main endpoints
+
+| Endpoint | Purpose |
+|---|---|
+| `/` | Dashboard |
+| `/health` | API health check |
+| `/alerts` | Retrieve alerts |
+| `/alerts/latest` | Retrieve latest alerts |
+| `/alerts/{alert_id}` | Retrieve a specific alert |
+| `/docs` | Interactive API documentation |
+
+The API runs locally on:
+
+```text
 http://127.0.0.1:8001
+```
 
-Available endpoints:
+Interactive API documentation:
 
-GET /health
-
-GET /alerts
-
-GET /alerts/latest
-
-GET /alerts/{alert_id}
-
-Dashboard:
-
-GET /
-
-API documentation:
-
-GET /docs
+```text
+http://127.0.0.1:8001/docs
+```
 
 ---
 
-# 12. Dashboard
+# 📊 Live Dashboard
+
+ASTRA-TAD includes a web-based monitoring dashboard.
 
 The dashboard provides:
 
 - API status
-- Total alerts
-- Critical alerts
-- High alerts
-- Medium alerts
+- Total alert count
+- Critical alert count
+- High-severity alert count
+- Medium-severity alert count
 - Severity distribution
 - Latest telemetry
-- Anomaly score visualization
-- Threshold visualization
-- Recent alerts
-- Severity filtering
+- Anomaly scores
+- Detection threshold
+- Recent anomaly alerts
 - Automatic refresh
 
----
-
-# 13. Evaluation
-
-The project evaluates the model using ground-truth anomaly labels.
-
-Evaluation includes:
-
-- Confusion matrix
-- Accuracy
-- Precision
-- Recall
-- F1 Score
-- False Positive Rate
-- False Negative Rate
-- Anomaly-type detection rate
-- Anomaly score statistics
+The dashboard communicates with the FastAPI backend to retrieve the latest anomaly information.
 
 ---
 
-# 14. Evaluation Visualizations
+# 📁 Project Structure
 
-Generated evaluation files include:
-
-evaluation/anomaly_score_distribution.png
-
-evaluation/anomaly_score_stream.png
-
-evaluation/detection_rate_by_type.png
-
-evaluation/mean_score_by_type.png
-
-evaluation/evaluation_scores.csv
-
----
-
-# 15. Project Structure
-
+```text
 ASTRA-TAD/
-|
+│
 ├── api/
 │   └── main.py
-|
-├── alerts/
-│   └── alerts.jsonl
-|
+│
 ├── dashboard/
 │   └── index.html
-|
+│
+├── data/
+│   ├── processed/
+│   └── synthetic/
+│
+├── docs/
+│   └── baseline_results.md
+│
 ├── evaluation/
 │   ├── evaluate_model.py
 │   ├── visualize_results.py
-│   ├── anomaly_score_distribution.png
-│   ├── anomaly_score_stream.png
-│   ├── detection_rate_by_type.png
-│   ├── mean_score_by_type.png
-│   └── evaluation_scores.csv
-|
+│   └── *.png
+│
 ├── models/
+│   ├── isolation_forest.joblib
+│   ├── lstm_autoencoder.pth
 │   ├── telemetry_autoencoder.pth
 │   └── telemetry_scaler.joblib
-|
+│
+├── notebooks/
+│   └── 01_data_exploration.ipynb
+│
 ├── simulator/
-│   ├── anomaly_generator.py
-│   └── telemetry_generator.py
-|
+│   ├── telemetry_generator.py
+│   └── anomaly_generator.py
+│
+├── src/
+│   ├── detection/
+│   ├── evaluation/
+│   ├── models/
+│   ├── preprocessing/
+│   └── test_environment.py
+│
 ├── streaming/
-│   ├── __init__.py
+│   ├── alert_logger.py
+│   ├── hybrid_ml_consumer.py
+│   ├── kafka_producer.py
 │   ├── ml_consumer.py
-│   └── alert_logger.py
-|
-├── .venv/
-|
-└── README.md
+│   └── telemetry_producer.py
+│
+├── docker-compose.yml
+├── requirements.txt
+├── README.md
+└── .gitignore
+```
 
 ---
 
-# 16. How to Run
+# ⚙️ Installation
 
-Activate the virtual environment:
+## 1. Clone the repository
 
+```bash
+git clone https://github.com/GOPIKA-SINDHURI/ASTRA-TAD.git
+cd ASTRA-TAD
+```
+
+---
+
+## 2. Create a virtual environment
+
+### Windows PowerShell
+
+```powershell
+python -m venv .venv
+```
+
+Activate it:
+
+```powershell
 .\.venv\Scripts\Activate.ps1
+```
 
-Start Kafka.
+---
 
-Start the ML consumer:
+## 3. Install dependencies
 
+```powershell
+pip install -r requirements.txt
+```
+
+---
+
+# 📨 Start Apache Kafka
+
+ASTRA-TAD requires Kafka for the real-time streaming pipeline.
+
+The project also contains:
+
+```text
+docker-compose.yml
+```
+
+for containerized infrastructure.
+
+Start the required services using the project's Docker Compose configuration.
+
+---
+
+# ▶️ Running ASTRA-TAD
+
+## Step 1 — Activate the environment
+
+```powershell
+cd C:\Projects\ASTRA-TAD
+.\.venv\Scripts\Activate.ps1
+```
+
+---
+
+## Step 2 — Start the ML Consumer
+
+Open a PowerShell terminal:
+
+```powershell
 python -m streaming.ml_consumer
+```
 
-Start FastAPI:
+The consumer loads the trained Autoencoder and waits for telemetry messages from Kafka.
 
+---
+
+## Step 3 — Start the FastAPI server
+
+Open another PowerShell terminal:
+
+```powershell
+cd C:\Projects\ASTRA-TAD
+.\.venv\Scripts\Activate.ps1
 python -m uvicorn api.main:app --reload --host 127.0.0.1 --port 8001
-
-Open the dashboard:
-
-http://127.0.0.1:8001/
+```
 
 ---
 
-# 17. Generate Anomalous Telemetry
+## Step 4 — Start telemetry/anomaly generation
 
-Run:
+Open another terminal:
 
+```powershell
+cd C:\Projects\ASTRA-TAD
+.\.venv\Scripts\Activate.ps1
 python simulator\anomaly_generator.py
+```
 
-This generates anomalous telemetry and publishes it to Kafka.
+The generator produces telemetry containing normal and synthetic anomalous observations and publishes the data to Kafka.
 
 ---
 
-# 18. Evaluate the Model
+## Step 5 — Open the dashboard
+
+Open:
+
+```text
+http://127.0.0.1:8001/
+```
+
+You should see the ASTRA-TAD monitoring dashboard.
+
+---
+
+# 🧪 Model Evaluation
+
+The project includes evaluation scripts for measuring anomaly detection behavior.
 
 Run:
 
+```powershell
 python evaluation\evaluate_model.py
+```
 
----
+Visualization:
 
-# 19. Generate Visualizations
-
-Run:
-
+```powershell
 python evaluation\visualize_results.py
+```
+
+The visualization pipeline generates plots including:
+
+```text
+evaluation/
+├── anomaly_score_distribution.png
+├── anomaly_score_stream.png
+├── detection_rate_by_type.png
+└── mean_score_by_type.png
+```
 
 ---
 
-# 20. Future Improvements
+# 📉 Evaluation Workflow
 
-Possible future improvements include:
+```text
+Synthetic Dataset
+       ↓
+Trained Model
+       ↓
+Generate Anomaly Scores
+       ↓
+Apply Detection Threshold
+       ↓
+Compare Predictions
+       ↓
+Ground Truth
+       ↓
+Evaluation Metrics
+       ↓
+Visualization
+```
 
-- Adaptive anomaly thresholds
-- More advanced deep-learning architectures
-- LSTM-based temporal anomaly detection
+The evaluation pipeline can be used to study detection behavior across different synthetic anomaly types.
+
+---
+
+# 🔬 Research / Experimentation Components
+
+The repository also contains experimental components for:
+
+- Isolation Forest evaluation
+- Autoencoder evaluation
+- LSTM Autoencoder evaluation
+- Anomaly-type analysis
+- Threshold optimization
+- Hybrid detection
+- Score-based fusion
+- Stuck-sensor detection
+- Root-cause feature analysis
+
+This makes the project suitable for experimentation with different anomaly detection strategies rather than relying on a single model.
+
+---
+
+# 🎯 Key Features
+
+- Real-time telemetry processing
+- Synthetic telemetry generation
+- Multiple anomaly types
+- Deep-learning-based anomaly detection
+- Autoencoder reconstruction-error detection
+- LSTM Autoencoder experimentation
+- Isolation Forest baseline
+- Hybrid anomaly detection
+- Score-based fusion
+- Root-cause feature analysis
+- Apache Kafka streaming
+- Automated alert generation
+- FastAPI REST API
+- Interactive monitoring dashboard
+- Evaluation and visualization pipeline
+- Modular project architecture
+
+---
+
+# 🔮 Future Improvements
+
+Possible future extensions include:
+
+- Real industrial telemetry datasets
 - Online model retraining
-- Persistent database storage
+- Adaptive anomaly thresholds
+- Advanced time-series models
+- Transformer-based anomaly detection
+- Improved root-cause analysis
+- Database-backed alert storage
 - Authentication and authorization
-- Email/SMS notification
-- Grafana integration
-- Docker deployment
-- Kubernetes deployment
 - Cloud deployment
-- Advanced root-cause analysis
+- Containerized end-to-end deployment
+- Monitoring and observability
+- Model drift detection
+- Automated model performance monitoring
 
 ---
 
-# 21. Conclusion
+# 🧑‍💻 Project Workflow
 
-ASTRA-TAD demonstrates an end-to-end real-time anomaly detection
-pipeline.
+The complete ASTRA-TAD workflow can be summarized as:
 
-The system combines streaming telemetry, machine learning,
-automated alert generation, API services, and visualization into
-a single monitoring platform.
+```text
+Generate Telemetry
+       ↓
+Create Anomalies
+       ↓
+Preprocess Data
+       ↓
+Train / Load ML Models
+       ↓
+Stream Through Kafka
+       ↓
+Real-Time ML Inference
+       ↓
+Calculate Anomaly Score
+       ↓
+Threshold-Based Detection
+       ↓
+Feature Contribution Analysis
+       ↓
+Generate Alert
+       ↓
+FastAPI
+       ↓
+Live Dashboard
+```
 
-It can be extended for industrial telemetry, spacecraft/satellite
-monitoring, IoT systems, infrastructure monitoring, and other
-real-time sensor applications.
+---
+
+# 📌 Project Status
+
+ASTRA-TAD currently contains:
+
+- Synthetic telemetry generation
+- Multiple anomaly generation methods
+- Multiple ML/deep-learning detection approaches
+- Real-time Kafka processing
+- Autoencoder-based real-time detection
+- Alert logging
+- Root-cause feature analysis
+- FastAPI backend
+- Live monitoring dashboard
+- Evaluation and visualization tools
+- GitHub-based project documentation
+
+---
+
+# 👩‍💻 Author
+
+**Gopika Sindhuri**
+
+B.Tech Computer Science Engineering
+
+---
+
+# ⭐ Project
+
+If you find the project useful for learning about machine learning, anomaly detection, real-time streaming, or telemetry analytics, consider giving the repository a star.
