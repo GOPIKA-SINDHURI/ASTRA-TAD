@@ -1,0 +1,8 @@
+anomaly_type,total,detected,missed,detection_rate,average_reconstruction_error
+temperature_spike,81,81,0,1.0,67.54508
+voltage_drop,101,101,0,1.0,31.25248
+sensor_drift,251,176,75,0.701195219123506,10.592065
+stuck_sensor,121,0,121,0.0,0.24050279
+high_vibration,101,43,58,0.42574257425742573,5.573363
+correlated_failure,101,101,0,1.0,25.265324
+battery_degradation,301,274,27,0.9102990033222591,22.299236
