@@ -579,7 +579,15 @@ evaluation/
 ├── detection_rate_by_type.png
 └── mean_score_by_type.png
 ```
+# 📊 Model Performance
 
+ASTRA-TAD was evaluated on a synthetic telemetry dataset containing
+10,000 records, including 8,943 normal records and 1,057 anomalous records.
+
+The real-time Autoencoder uses a reconstruction-error threshold of:
+
+```text
+2.148575
 ---
 
 # 📉 Evaluation Workflow
