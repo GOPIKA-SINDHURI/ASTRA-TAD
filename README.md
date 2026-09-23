@@ -444,6 +444,29 @@ ASTRA-TAD/
 For the complete step-by-step instructions to run ASTRA-TAD from telemetry generation through real-time ML detection and dashboard visualization, see:
 
 [ASTRA-TAD End-to-End Demo Guide](docs/DEMO.md)
+
+## 🔌 REST API
+
+ASTRA-TAD provides a FastAPI backend for accessing system health,
+anomaly alerts, model information, and analytics.
+
+### API Documentation
+
+When the backend is running:
+
+- Swagger UI: `http://127.0.0.1:8001/docs`
+- ReDoc: `http://127.0.0.1:8001/redoc`
+- Health: `http://127.0.0.1:8001/health`
+- System Information: `http://127.0.0.1:8001/system/info`
+- Alerts: `http://127.0.0.1:8001/alerts`
+- Latest Alerts: `http://127.0.0.1:8001/alerts/latest`
+- Alert Summary: `http://127.0.0.1:8001/alerts/summary`
+- Anomaly Types: `http://127.0.0.1:8001/analytics/anomaly-types`
+- Anomaly Scores: `http://127.0.0.1:8001/analytics/scores`
+
+The API acts as the interface between the real-time anomaly detection
+pipeline and the monitoring dashboard.
+
 ---
 ## 🤖 AI/ML Model Documentation
 
