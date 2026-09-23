@@ -445,6 +445,16 @@ For the complete step-by-step instructions to run ASTRA-TAD from telemetry gener
 
 [ASTRA-TAD End-to-End Demo Guide](docs/DEMO.md)
 ---
+## 🤖 AI/ML Model Documentation
+
+ASTRA-TAD contains multiple anomaly-detection approaches, including a
+Dense Autoencoder, Isolation Forest, LSTM Autoencoder, Hybrid Detection,
+Score-Based Fusion, and Root-Cause Feature Analysis.
+
+For the detailed model architecture, algorithms, anomaly-scoring process,
+and evaluation methodology:
+
+👉 [View AI/ML Model Documentation](docs/ML_MODELS.md)
 
 # ⚙️ Installation
 
