@@ -439,7 +439,11 @@ ASTRA-TAD/
 ├── README.md
 └── .gitignore
 ```
+# 🚀 Demo Guide
 
+For the complete step-by-step instructions to run ASTRA-TAD from telemetry generation through real-time ML detection and dashboard visualization, see:
+
+[ASTRA-TAD End-to-End Demo Guide](docs/DEMO.md)
 ---
 
 # ⚙️ Installation
