@@ -370,7 +370,18 @@ The dashboard provides:
 - Automatic refresh
 
 The dashboard communicates with the FastAPI backend to retrieve the latest anomaly information.
+## Dashboard Preview
 
+![ASTRA-TAD Dashboard](docs/dashboard.png)
+![ASTRA-TAD Dashboard](docs/dashboard-results.png)
+
+## Real-Time Alerts
+
+![ASTRA-TAD Alerts](docs/alerts-api.png)
+
+## FastAPI Documentation
+
+![ASTRA-TAD API Documentation](docs/api-docs.png)
 ---
 
 # 📁 Project Structure
